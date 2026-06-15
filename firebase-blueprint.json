@@ -1,0 +1,118 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Represents a registered user or a guest session on the retro IRC client.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID from authentication." },
+        "nickname": { "type": "string", "description": "Unique display nickname." },
+        "email": { "type": "string", "description": "Email address for registered users." },
+        "role": { "type": "string", "enum": ["Admin", "Moderator", "Member"], "description": "User hierarchy role." },
+        "joinedAt": { "type": "string", "format": "date-time", "description": "Session or registration date." },
+        "status": { "type": "string", "enum": ["online", "offline", "away"], "description": "Presence state." },
+        "statusMessage": { "type": "string", "description": "Custom status note." },
+        "avatar": { "type": "string", "description": "Designation of the assigned retro avatar." },
+        "friends": { "type": "array", "description": "List of friend user IDs." },
+        "blocked": { "type": "array", "description": "List of blocked user IDs." },
+        "typingIn": { "type": "string", "description": "Active channel ID where user is typing." }
+      },
+      "required": ["uid", "nickname", "role", "joinedAt", "status"]
+    },
+    "Nickname": {
+      "title": "Nickname Reservation",
+      "description": "Unique mapping to enforce unique nickname constraints at database level.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "UID of the user holding this nickname." },
+        "nickname": { "type": "string", "description": "The registered nickname." }
+      },
+      "required": ["uid", "nickname"]
+    },
+    "Room": {
+      "title": "Chat Room",
+      "description": "A channel where users can join and discuss topics.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Channel unique ID." },
+        "name": { "type": "string", "description": "Channel display name." },
+        "description": { "type": "string", "description": "Channel topic or description." },
+        "isProtected": { "type": "boolean", "description": "Whether the room is protected by a PIN." },
+        "pin": { "type": "string", "description": "The access PIN for protected channels." },
+        "ownerId": { "type": "string", "description": "Creator user Uid." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation time." },
+        "memberCount": { "type": "number", "description": "Current active visitor count." }
+      },
+      "required": ["id", "name", "ownerId", "createdAt", "isProtected"]
+    },
+    "Message": {
+      "title": "Channel Message",
+      "description": "A communication message sent within a specific chat room.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Message document ID." },
+        "text": { "type": "string", "description": "Content of the message." },
+        "senderId": { "type": "string", "description": "UID of the sending user." },
+        "senderNickname": { "type": "string", "description": "Nickname of the sender." },
+        "senderAvatar": { "type": "string", "description": "Avatar design of the sender." },
+        "senderRole": { "type": "string", "description": "Role of the sender." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server time of message." },
+        "isSystem": { "type": "boolean", "description": "Flag for system join/parts or state announcements." },
+        "type": { "type": "string", "enum": ["text", "system", "me"], "description": "IRC message type." }
+      },
+      "required": ["id", "text", "senderId", "senderNickname", "createdAt"]
+    },
+    "Conversation": {
+      "title": "Private Conversation",
+      "description": "Header tracking a high-level dialogue thread between two users.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Deterministic ID of conversation (e.g. uid1_uid2)." },
+        "participants": { "type": "array", "description": "Array of both participant UIDs." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Modification date of thread." },
+        "lastMessage": { "type": "string", "description": "Shorthand of last dialogue sent." }
+      },
+      "required": ["id", "participants", "updatedAt"]
+    },
+    "PrivateMessage": {
+      "title": "Private Dialogue Message",
+      "description": "A single private message between two specific users.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique message ID." },
+        "text": { "type": "string", "description": "Encrypted or plaintext message content." },
+        "senderId": { "type": "string", "description": "UID of author." },
+        "senderNickname": { "type": "string", "description": "Author display nickname." },
+        "senderAvatar": { "type": "string", "description": "Author visual avatar." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server receipt timestamp." }
+      },
+      "required": ["id", "text", "senderId", "senderNickname", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Access to profiles. Publicly readable if logged in, writable only by owners."
+    },
+    "/nicknames/{nickname}": {
+      "schema": "Nickname",
+      "description": "Collection of reserved usernames mapped to their owner IDs."
+    },
+    "/rooms/{roomId}": {
+      "schema": "Room",
+      "description": "Available chatrooms list."
+    },
+    "/rooms/{roomId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Real-time communication channels."
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "List of active direct chats."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "PrivateMessage",
+      "description": "Messages inside direct message threads."
+    }
+  }
+}

@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Tahoma", "Segoe UI", -apple-system, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --font-crt: "VT323", monospace;
+}
+
+/* Retro Windows 95 Styles */
+body {
+  background-color: #008080; /* Teal background classic to Win 95 */
+  font-family: var(--font-sans);
+  color: #000;
+  overflow: hidden;
+  image-rendering: pixelated;
+  user-select: none;
+}
+
+/* 3D Outset Border (Buttons, Window raised cards) */
+.win95-outset {
+  box-shadow: 
+    inset 1px 1px 0px #ffffff,
+    inset -1px -1px 0px #0a0a0a,
+    inset 2px 2px 0px #dfdfdf,
+    inset -2px -2px 0px #808080;
+  border: 1px solid #101010;
+  background-color: #c0c0c0;
+}
+
+/* 3D Inset Border (Input fields, scroll viewports) */
+.win95-inset {
+  box-shadow: 
+    inset 1px 1px 0px #0a0a0a,
+    inset -1px -1px 0px #ffffff,
+    inset 2px 2px 0px #808080,
+    inset -2px -2px 0px #dfdfdf;
+  border: 1px solid #101010;
+  background-color: #ffffff;
+}
+
+/* Classic Button Pressed style */
+.win95-btn-active:active {
+  box-shadow: 
+    inset 1px 1px 0px #0a0a0a,
+    inset -1px -1px 0px #ffffff,
+    inset 2px 2px 0px #808080,
+    inset -2px -2px 0px #dfdfdf;
+  padding-top: 5px !important;
+  padding-left: 5px !important;
+}
+
+/* CRT monitor aesthetic scanlines */
+.crt-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.crt-scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 999;
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Retro Scrollbars */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+  background-color: #dfdfdf;
+}
+
+::-webkit-scrollbar-track {
+  background-image: radial-gradient(#c0c0c0 25%, transparent 25%),
+                    radial-gradient(#c0c0c0 25%, transparent 25%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  background-color: #dfdfdf;
+  box-shadow: inset 1px 1px 0px #808080, inset -1px -1px 0px #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  box-shadow: 
+    inset 1px 1px 0px #ffffff,
+    inset -1px -1px 0px #0a0a0a,
+    inset 2px 2px 0px #dfdfdf,
+    inset -2px -2px 0px #808080;
+  border: 1px solid #101010;
+}
+
+::-webkit-scrollbar-button {
+  display: block;
+  background-color: #c0c0c0;
+  box-shadow: 
+    inset 1px 1px 0px #ffffff,
+    inset -1px -1px 0px #0a0a0a,
+    offset 1px 1px 0px #808080;
+  border: 1px solid #101010;
+  width: 16px;
+  height: 16px;
+}
+
+/* Animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.win95-caret {
+  animation: blink 1s infinite;
+}
+
+/* ==========================================================================
+   Elegant Dark Design Theme Overrides
+   ========================================================================== */
+
+/* Outer wrapper base configurations */
+.elegant-dark {
+  background-color: #0c0c0c !important;
+  color: #e0e0e0 !important;
+}
+
+/* General typography fallback force to monospace as requested */
+.elegant-dark * {
+  font-family: var(--font-mono), monospace !important;
+}
+
+/* Ensure legible text colors over dark backgrounds in modals and sidebars */
+.elegant-dark .text-black,
+.elegant-dark .text-gray-950,
+.elegant-dark .text-gray-900,
+.elegant-dark .text-gray-800,
+.elegant-dark .text-gray-700 {
+  color: #e0e0e0 !important;
+}
+
+.elegant-dark .text-gray-600,
+.elegant-dark .text-gray-500,
+.elegant-dark .text-gray-400 {
+  color: #a0a0a0 !important;
+}
+
+.elegant-dark .text-gray-100,
+.elegant-dark .text-gray-200,
+.elegant-dark .border-gray-100,
+.elegant-dark .border-gray-200 {
+  color: #333333 !important;
+  border-color: #333333 !important;
+}
+
+.elegant-dark .text-blue-800,
+.elegant-dark .text-blue-900,
+.elegant-dark .text-amber-800,
+.elegant-dark .text-amber-900,
+.elegant-dark .text-rose-800 {
+  color: #10b981 !important; /* Elegant Emerald green highlights */
+}
+
+/* Convert 3D retro outset components to flat high-contrast dark sections */
+.elegant-dark .win95-outset {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333333 !important;
+  box-shadow: none !important;
+  color: #e0e0e0 !important;
+}
+
+/* Convert 3D retro inset scroll views to elegant pitch flat boxes */
+.elegant-dark .win95-inset {
+  background-color: #121212 !important;
+  border: 1px solid #333333 !important;
+  box-shadow: none !important;
+  color: #e0e0e0 !important;
+}
+
+/* Sidebars and containers */
+.elegant-dark .bg-\[\#c0c0c0\] {
+  background-color: #121212 !important;
+}
+
+.elegant-dark .bg-\[\#808080\] {
+  background-color: #1a1a1a !important;
+}
+
+.elegant-dark .bg-\[\#dfdfdf\],
+.elegant-dark .bg-gray-200 {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+}
+
+/* Chat flow is black */
+.elegant-dark .bg-white {
+  background-color: #000000 !important;
+  color: #e0e0e0 !important;
+}
+
+/* Inputs and interactive elements */
+.elegant-dark input[type="text"],
+.elegant-dark input[type="email"],
+.elegant-dark input[type="password"],
+.elegant-dark select {
+  background-color: #000000 !important;
+  color: #10b981 !important;
+  border: 1px solid #333333 !important;
+}
+
+/* Buttons active status overrides */
+.elegant-dark .win95-btn-active:active {
+  box-shadow: none !important;
+  border: 1px solid #10b981 !important;
+  padding: inherit !important;
+}
+
+/* Dark mode scrollbars */
+.elegant-dark ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background-color: #121212;
+}
+
+.elegant-dark ::-webkit-scrollbar-track {
+  background-color: #0c0c0c;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.elegant-dark ::-webkit-scrollbar-thumb {
+  background-color: #222222;
+  border: 1px solid #333333;
+  box-shadow: none !important;
+}
+
+.elegant-dark ::-webkit-scrollbar-button {
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  box-shadow: none !important;
+}
+
+/* Custom dark selections */
+.elegant-dark ::selection {
+  background-color: rgba(16, 185, 129, 0.3) !important;
+  color: #ffffff !important;
+}

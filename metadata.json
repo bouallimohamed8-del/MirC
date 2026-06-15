@@ -1,0 +1,6 @@
+{
+  "name": "Retro IRC Chat Client",
+  "description": "A fully functional web application inspired by the classic 1990s mIRC / IRC chat clients, featuring real-time public rooms, PIN-protected chatrooms, private messages, retro design with resizable windows, and nostalgic sound effects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
